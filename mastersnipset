@@ -1,0 +1,88 @@
+// ⚠️ GANTI DENGAN URL DEPLOYMENT APPS SCRIPT LU YG TERBARU
+      const API_URL = 'https://script.google.com/macros/s/AKfycbxvNE-egrq1utNnYynPgI5pjK-h3sYTSIaU3VySIRyk8g9i_jOjn8GHDC1s80uZeFWVaQ/exec';
+      
+      let currentAgencyData = null; let selectedProduct = ""; let selectedPrice = "";
+
+      document.addEventListener("DOMContentLoaded", () => {
+          const modal = document.getElementById('ig-checkout-modal');
+          const modalContent = document.getElementById('ig-modal-content');
+          const urlParams = new URLSearchParams(window.location.search);
+          const refId = urlParams.get('ref') || 'admin'; // Fallback aman jika tanpa parameter
+
+          document.querySelectorAll('.btn-checkout').forEach(btn => {
+              btn.addEventListener('click', (e) => {
+                  e.preventDefault();
+                  selectedProduct = btn.getAttribute('data-product') || 'Produk';
+                  selectedPrice = btn.getAttribute('data-price') || '0';
+                  document.getElementById('ig-prod-name').innerText = selectedProduct;
+                  document.getElementById('ig-prod-price').innerText = 'Rp ' + Number(selectedPrice).toLocaleString('id-ID');
+                  modal.classList.remove('hidden');
+                  setTimeout(() => { modal.classList.remove('opacity-0'); modalContent.classList.remove('scale-95'); }, 10);
+                  fetchAgencyInfo(refId);
+              });
+          });
+
+          document.getElementById('ig-close-btn').addEventListener('click', () => {
+              modal.classList.add('opacity-0'); modalContent.classList.add('scale-95');
+              setTimeout(() => { modal.classList.add('hidden'); }, 300);
+          });
+          
+          document.getElementById('ig-form-order').addEventListener('submit', async (e) => {
+              e.preventDefault();
+              if(!currentAgencyData) return alert('Data belum siap!');
+              
+              const btn = document.getElementById('ig-submit-btn');
+              btn.innerText = "Memproses..."; btn.disabled = true;
+
+              const name = document.getElementById('ig-input-name').value;
+              const wa = document.getElementById('ig-input-wa').value;
+              const email = document.getElementById('ig-input-email').value;
+
+              try {
+                  // Kirim data ke backend iMersRELAY untuk dicatat ke database
+                  const response = await fetch(API_URL, {
+                      method: 'POST',
+                      body: JSON.stringify({ 
+                          action: 'createOrder', 
+                          payload: { productName: selectedProduct, price: selectedPrice, customerName: name, customerWa: wa, customerEmail: email, agencyId: currentAgencyData.id || refId } 
+                      })
+                  });
+                  const res = await response.json();
+                  
+                  // Lanjut buka WhatsApp
+                  let phoneTarget = String(currentAgencyData.phone).replace(/\D/g, '');
+                  if (phoneTarget.startsWith('0')) phoneTarget = '62' + phoneTarget.substring(1);
+                  if (phoneTarget.startsWith('8')) phoneTarget = '62' + phoneTarget;
+
+                  let bankInfo = currentAgencyData.bankName ? `${currentAgencyData.bankName} ${currentAgencyData.bankAccount}` : 'Sesuai Arahan';
+                  let msg = `Halo kak ${currentAgencyData.agencyName}, saya mau order:\n\n📦 *${selectedProduct}*\n💰 *Rp ${Number(selectedPrice).toLocaleString('id-ID')}*\n\n👤 *Data Saya:*\nNama: ${name}\nWA: ${wa}\nEmail: ${email}\n\nSaya akan transfer ke rekening *${bankInfo}*. Mohon di-Approve pesanan saya ya kak! (Order ID: ${res.success ? res.data.orderId : 'Manual'})`;
+                  
+                  window.location.href = `https://wa.me/${phoneTarget}?text=${encodeURIComponent(msg)}`;
+              } catch(e) { alert("Terjadi kesalahan sistem."); btn.innerText = "Coba Lagi"; btn.disabled = false;}
+          });
+
+          async function fetchAgencyInfo(agencyId) {
+              document.getElementById('ig-loader').classList.remove('hidden');
+              document.getElementById('ig-main-content').classList.add('hidden');
+              document.getElementById('ig-error-state').classList.add('hidden');
+              try {
+                  const response = await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'getCheckoutInfo', payload: { agencyId: agencyId } }) });
+                  const result = await response.json();
+                  if (!result.success) throw new Error(result.error);
+                  
+                  currentAgencyData = result.data;
+                  document.getElementById('ig-agency-name').innerText = currentAgencyData.agencyName;
+                  document.getElementById('ig-agency-badge').classList.remove('hidden');
+
+                  document.getElementById('ig-bank-details').innerText = currentAgencyData.bankName ? `${currentAgencyData.bankName} ${currentAgencyData.bankAccount}` : 'Hubungi Penjual';
+                  document.getElementById('ig-bank-owner').innerText = currentAgencyData.bankOwner ? `A.N ${currentAgencyData.bankOwner}` : `A.N ${currentAgencyData.agencyName}`;
+                  if (currentAgencyData.qrisUrl && currentAgencyData.qrisUrl.length > 5) {
+                      document.getElementById('ig-qris-img').src = currentAgencyData.qrisUrl;
+                      document.getElementById('ig-qris-container').classList.remove('hidden');
+                  }
+                  document.getElementById('ig-loader').classList.add('hidden');
+                  document.getElementById('ig-main-content').classList.remove('hidden');
+              } catch (error) { document.getElementById('ig-loader').classList.add('hidden'); document.getElementById('ig-error-state').classList.remove('hidden'); }
+          }
+      });
+  </script>
