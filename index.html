@@ -1392,7 +1392,19 @@
             if (appState.user.role === 'admin') {
                 addNavItems('Pengaturan', 'settings', 'settings', false);
                 document.getElementById('btn-add-product').classList.remove('hidden');
-                document.getElementById('btn-clear-pending').classList.remove('hidden');
+                
+                // Cek eksistensi sebelum menghapus class hidden (Biar Agency gak nyangkut/freeze)
+                const btnClearPending = document.getElementById('btn-clear-pending');
+                if (btnClearPending) {
+                    btnClearPending.classList.remove('hidden');
+                }
+            } else {
+                // PASTIKAN elemen yang HANYA untuk Admin tidak muncul dan tidak error di Agency
+                const btnAddProduct = document.getElementById('btn-add-product');
+                if (btnAddProduct) btnAddProduct.classList.add('hidden');
+                
+                const btnClearPending = document.getElementById('btn-clear-pending');
+                if (btnClearPending) btnClearPending.classList.add('hidden');
             }
             addNavItems('Akun Saya', 'user', 'account', false);
 
@@ -1405,6 +1417,10 @@
             `;
             navMenu.appendChild(createBtnContainer);
             
+            // PASTIKAN SEMUA BACKDROP/MODAL TERTUTUP SEMPURNA SAAT BUILD UI
+            const backdrops = document.querySelectorAll('[id^="modal-"]');
+            backdrops.forEach(modal => modal.classList.add('hidden'));
+
             lucide.createIcons();
             renderDashboard();
             renderOrdersTable();
