@@ -1040,7 +1040,7 @@
                 if(!result.success) throw new Error(result.error);
 
                 checkoutAgencyData = result.data;
-                document.getElementById('co-agency-name').innerText = "Dilayani oleh: " + checkoutAgencyData.agencyName;
+                document.getElementById('co-agency-name').innerText = "Managed by: " + checkoutAgencyData.agencyName;
                 document.getElementById('co-agency-badge').classList.remove('hidden');
 
                 // === SUNTIKAN LOGIKA LOGO AGENCY ===
