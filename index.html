@@ -388,36 +388,42 @@
 
                 <!-- ORDERS VIEW (PESANAN MASUK - FITUR 2: FOLLOW UP) -->
                 <div id="view-orders" class="view-section hidden fade-in">
-                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 space-y-4 sm:space-y-0">
-                        <div>
-                            <h3 class="text-lg font-bold text-textMain">Pesanan Masuk</h3>
-                            <p class="text-sm text-gray-400">Daftar pesanan dari landing page. Konfirmasi jika dana sudah masuk.</p>
-                        </div>
-                        <!-- Tombol Sapu Bersih (Hanya untuk Admin) -->
-                        <button id="btn-clear-pending" onclick="confirmClearPending()" class="hidden w-full sm:w-auto bg-[#222] hover:bg-borderMain text-gray-300 border border-borderMain px-4 py-2 rounded-lg text-sm font-medium transition-colors">
-                            <i data-lucide="trash-2" class="w-4 h-4 mr-2 inline"></i> Sapu Bersih Pending
-                        </button>
-                    </div>
-                    
-                    <div class="bg-card rounded-xl shadow-lg border border-borderMain overflow-hidden">
-                        <div class="overflow-x-auto w-full">
-                            <table class="min-w-full divide-y divide-borderMain text-sm">
-                                <thead class="bg-[#222]">
-                                    <tr>
-                                        <th class="px-4 sm:px-6 py-3 text-left font-bold text-gray-300 uppercase tracking-wider whitespace-nowrap">Order ID & Tanggal</th>
-                                        <th class="px-4 sm:px-6 py-3 text-left font-bold text-gray-300 uppercase tracking-wider whitespace-nowrap">Produk</th>
-                                        <th class="px-4 sm:px-6 py-3 text-left font-bold text-gray-300 uppercase tracking-wider whitespace-nowrap">Customer</th>
-                                        <th class="px-4 sm:px-6 py-3 text-center font-bold text-gray-300 uppercase tracking-wider whitespace-nowrap">Status</th>
-                                        <th class="px-4 sm:px-6 py-3 text-right font-bold text-gray-300 uppercase tracking-wider whitespace-nowrap">Aksi</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="bg-card divide-y divide-borderMain" id="orders-table-body">
-                                    <!-- Diisi via JS -->
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
+    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 space-y-4 sm:space-y-0">
+        <div>
+            <h3 class="text-lg font-bold text-textMain">Pesanan Masuk</h3>
+            <p class="text-sm text-gray-400">Daftar pesanan dari landing page. Konfirmasi jika dana sudah masuk.</p>
+            <p class="text-[10px] text-gray-500 mt-1 italic font-medium flex items-center">
+                <i data-lucide="info" class="w-3 h-3 mr-1"></i> Pesanan PENDING > 48 jam dihapus otomatis oleh sistem.
+            </p>
+        </div>
+        <div class="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+            <button onclick="exportOrdersToCSV()" class="w-full sm:w-auto bg-[#222] border border-borderMain text-gray-300 px-4 py-2 rounded-lg text-sm font-medium flex items-center justify-center hover:bg-borderMain transition-all shadow-sm">
+                <i data-lucide="download" class="w-4 h-4 mr-2"></i> Export CSV
+            </button>
+            <button id="btn-clear-pending" onclick="confirmClearPending()" class="hidden w-full sm:w-auto bg-red-600/10 border border-red-500/30 text-red-500 px-4 py-2 rounded-lg text-sm font-medium transition-colors hover:bg-red-600/20 flex items-center justify-center">
+                <i data-lucide="trash-2" class="w-4 h-4 mr-2 inline"></i> Sapu Bersih Pending
+            </button>
+        </div>
+    </div>
+    
+    <div class="bg-card rounded-xl shadow-lg border border-borderMain overflow-hidden">
+        <div class="overflow-x-auto w-full">
+            <table class="min-w-full divide-y divide-borderMain text-sm">
+                <thead class="bg-[#222]">
+                    <tr>
+                        <th class="px-4 sm:px-6 py-3 text-left font-bold text-gray-300 uppercase tracking-wider whitespace-nowrap">Order ID & Tanggal</th>
+                        <th class="px-4 sm:px-6 py-3 text-left font-bold text-gray-300 uppercase tracking-wider whitespace-nowrap">Produk</th>
+                        <th class="px-4 sm:px-6 py-3 text-left font-bold text-gray-300 uppercase tracking-wider whitespace-nowrap">Customer</th>
+                        <th class="px-4 sm:px-6 py-3 text-center font-bold text-gray-300 uppercase tracking-wider whitespace-nowrap">Status</th>
+                        <th class="px-4 sm:px-6 py-3 text-right font-bold text-gray-300 uppercase tracking-wider whitespace-nowrap">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-card divide-y divide-borderMain" id="orders-table-body">
+                    </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 
                 <!-- AGENCIES VIEW -->
                 <div id="view-agencies" class="view-section hidden fade-in">
@@ -616,26 +622,37 @@
 
                 <!-- ACCOUNT VIEW (with Bank Details) -->
                 <div id="view-account" class="view-section hidden fade-in">
-                    <div class="mb-4 sm:mb-6">
-                        <h3 class="text-lg font-bold text-textMain">Pengaturan Akun</h3>
-                        <p class="text-sm text-gray-400">Perbarui profil dan data pembayaran Anda.</p>
-                    </div>
-                    <div class="bg-card rounded-xl shadow-lg border border-borderMain overflow-hidden max-w-2xl">
-                        <form id="form-update-profile" onsubmit="handleUpdateProfile(event)" class="p-4 sm:p-6 space-y-6">
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-300 mb-1">Nama Lengkap</label>
-                                    <input type="text" id="profile-name" required class="w-full px-4 py-2 bg-dark border border-borderMain text-textMain rounded-lg focus:ring-2 focus:ring-primary outline-none">
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-300 mb-1">Email</label>
-                                    <input type="email" id="profile-email" disabled class="w-full px-4 py-2 bg-[#222] border border-borderMain text-gray-500 rounded-lg cursor-not-allowed">
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-300 mb-1">Nomor WhatsApp</label>
-                                    <input type="text" id="profile-phone" class="w-full px-4 py-2 bg-dark border border-borderMain text-textMain rounded-lg focus:ring-2 focus:ring-primary outline-none">
-                                </div>
-                            </div>
+    <div class="mb-4 sm:mb-6">
+        <h3 class="text-lg font-bold text-textMain">Pengaturan Akun</h3>
+        <p class="text-sm text-gray-400">Perbarui profil dan data pembayaran Anda.</p>
+    </div>
+    <div class="bg-card rounded-xl shadow-lg border border-borderMain overflow-hidden max-w-2xl">
+        <form id="form-update-profile" onsubmit="handleUpdateProfile(event)" class="p-4 sm:p-6 space-y-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+                <div>
+                    <label class="block text-sm font-medium text-gray-300 mb-1">Nama Lengkap</label>
+                    <input type="text" id="profile-name" required class="w-full px-4 py-2 bg-dark border border-borderMain text-textMain rounded-lg focus:ring-2 focus:ring-primary outline-none">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-300 mb-1">Email</label>
+                    <input type="email" id="profile-email" disabled class="w-full px-4 py-2 bg-[#222] border border-borderMain text-gray-500 rounded-lg cursor-not-allowed">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-300 mb-1">Nomor WhatsApp</label>
+                    <input type="text" id="profile-phone" class="w-full px-4 py-2 bg-dark border border-borderMain text-textMain rounded-lg focus:ring-2 focus:ring-primary outline-none">
+                </div>
+            </div>
+
+            <div class="pt-4 border-t border-borderMain">
+                <h4 class="text-sm font-bold text-primary mb-4 flex items-center">
+                    <i data-lucide="shield-check" class="w-4 h-4 mr-2"></i> Personal Agency Branding
+                </h4>
+                <div class="bg-primary/5 p-4 rounded-xl border border-primary/20">
+                    <label class="block text-xs font-bold text-gray-400 mb-1 uppercase tracking-widest">URL Logo Agency Anda (Opsional)</label>
+                    <input type="url" id="profile-agency-logo" placeholder="https://domain.com/logo-anda.png" class="w-full px-4 py-2 bg-dark border border-borderMain text-textMain rounded-lg focus:ring-2 focus:ring-primary outline-none text-sm mb-2">
+                    <p class="text-[10px] text-gray-500 italic">Logo ini akan muncul di halaman checkout menggantikan logo pusat khusus untuk link referal Anda.</p>
+                </div>
+            </div>
                             
                             <hr class="border-borderMain">
                             
@@ -1020,6 +1037,22 @@
                 checkoutAgencyData = result.data;
                 document.getElementById('co-agency-name').innerText = "Dilayani oleh: " + checkoutAgencyData.agencyName;
                 document.getElementById('co-agency-badge').classList.remove('hidden');
+
+                // === SUNTIKAN LOGIKA LOGO AGENCY ===
+                const coLogoImg = document.getElementById('co-agency-logo-img');
+                const coLogoContainer = document.getElementById('co-agency-logo-container');
+                const coBrandName = document.getElementById('co-brand-name');
+
+                if (checkoutAgencyData.agencyLogo && checkoutAgencyData.agencyLogo.length > 5) {
+                    coLogoImg.src = checkoutAgencyData.agencyLogo;
+                    coLogoContainer.classList.remove('hidden');
+                    if (coBrandName) coBrandName.classList.add('hidden'); // Sembunyikan teks brand pusat kalau ada logo agency
+                } else if (savedBranding.logoUrl) {
+                    coLogoImg.src = savedBranding.logoUrl;
+                    coLogoContainer.classList.remove('hidden');
+                    if (coBrandName) coBrandName.classList.add('hidden');
+                }
+                // ===================================
 
                 const bankText = checkoutAgencyData.bankName ? `${checkoutAgencyData.bankName} ${checkoutAgencyData.bankAccount}` : 'Bank Transfer';
                 const ownerText = checkoutAgencyData.bankOwner ? `A.N ${checkoutAgencyData.bankOwner}` : `A.N ${checkoutAgencyData.agencyName}`;
@@ -1418,62 +1451,69 @@
         }
 
         async function handleUpdateProfile(e) {
-            e.preventDefault();
-            const btn = document.getElementById('btn-submit-profile');
-            const originalText = btn.innerHTML;
-            btn.innerHTML = `<div class="loader mr-2 w-4 h-4 border-2 border-primary border-t-white"></div> Menyimpan...`;
-            btn.disabled = true;
+    e.preventDefault();
+    const btn = document.getElementById('btn-submit-profile');
+    const originalText = btn.innerHTML;
+    btn.innerHTML = `<div class="loader mr-2 w-4 h-4 border-2 border-primary border-t-white"></div> Menyimpan...`;
+    btn.disabled = true;
 
-            const newName = document.getElementById('profile-name').value;
-            const newPhone = document.getElementById('profile-phone').value;
-            const oldPass = document.getElementById('profile-old-password').value;
-            const newPass = document.getElementById('profile-new-password').value;
+    const newName = document.getElementById('profile-name').value;
+    const newPhone = document.getElementById('profile-phone').value;
+    const oldPass = document.getElementById('profile-old-password').value;
+    const newPass = document.getElementById('profile-new-password').value;
 
-            // DATA REKENING
-            const bankName = document.getElementById('profile-bank-name').value;
-            const bankAccount = document.getElementById('profile-bank-account').value;
-            const bankOwner = document.getElementById('profile-bank-owner').value;
-            const qrisUrl = document.getElementById('profile-qris-url').value;
+    // SUNTIKAN: AMBIL DATA LOGO AGENCY
+    const agencyLogoUrl = document.getElementById('profile-agency-logo').value;
 
-            if ((oldPass && !newPass) || (!oldPass && newPass)) {
-                showToast('Error', 'Isi kedua kolom password jika ingin mengubahnya.', true);
-                btn.innerHTML = originalText;
-                btn.disabled = false;
-                return;
-            }
+    // DATA REKENING
+    const bankName = document.getElementById('profile-bank-name').value;
+    const bankAccount = document.getElementById('profile-bank-account').value;
+    const bankOwner = document.getElementById('profile-bank-owner').value;
+    const qrisUrl = document.getElementById('profile-qris-url').value;
 
-            try {
-                await callBackend('updateUserProfile', { 
-                    userId: appState.user.id, 
-                    currentPassword: oldPass, 
-                    newPassword: newPass, 
-                    newName, 
-                    newPhone,
-                    bankName,
-                    bankAccount,
-                    bankOwner,
-                    qrisUrl
-                });
-                showToast('Sukses', 'Profil berhasil diperbarui.');
-                
-                // UPDATE STATE DI FRONTEND
-                appState.user.name = newName;
-                appState.user.phone = newPhone;
-                appState.user.bank_name = bankName;
-                appState.user.bank_account = bankAccount;
-                appState.user.bank_owner = bankOwner;
-                appState.user.qris_url = qrisUrl;
-                
-                // SIMPAN KE LOCALSTORAGE AGAR TIDAK HILANG SAAT REFRESH
-                localStorage.setItem('imersgate_user', JSON.stringify(appState.user));
+    if ((oldPass && !newPass) || (!oldPass && newPass)) {
+        showToast('Error', 'Isi kedua kolom password jika ingin mengubahnya.', true);
+        btn.innerHTML = originalText;
+        btn.disabled = false;
+        return;
+    }
 
-                document.getElementById('user-name').innerText = newName;
-                document.getElementById('user-avatar').innerText = newName.charAt(0).toUpperCase();
-                document.getElementById('profile-old-password').value = '';
-                document.getElementById('profile-new-password').value = '';
-            } catch (err) { showToast('Error', err.message, true); } 
-            finally { btn.innerHTML = originalText; btn.disabled = false; }
-        }
+    try {
+        await callBackend('updateUserProfile', { 
+            userId: appState.user.id, 
+            currentPassword: oldPass, 
+            newPassword: newPass, 
+            newName, 
+            newPhone,
+            agencyLogoUrl, // SUNTIKAN: KIRIM KE BACKEND
+            bankName,
+            bankAccount,
+            bankOwner,
+            qrisUrl
+        });
+        
+        showToast('Sukses', 'Profil berhasil diperbarui.');
+        
+        // UPDATE STATE DI FRONTEND
+        appState.user.name = newName;
+        appState.user.phone = newPhone;
+        appState.user.agency_logo_url = agencyLogoUrl; // SUNTIKAN: UPDATE STATE LOGO
+        appState.user.bank_name = bankName;
+        appState.user.bank_account = bankAccount;
+        appState.user.bank_owner = bankOwner;
+        appState.user.qris_url = qrisUrl;
+        
+        // SIMPAN KE LOCALSTORAGE AGAR TIDAK HILANG SAAT REFRESH
+        localStorage.setItem('imersgate_user', JSON.stringify(appState.user));
+
+        document.getElementById('user-name').innerText = newName;
+        document.getElementById('user-avatar').innerText = newName.charAt(0).toUpperCase();
+        document.getElementById('profile-old-password').value = '';
+        document.getElementById('profile-new-password').value = '';
+        
+    } catch (err) { showToast('Error', err.message, true); } 
+    finally { btn.innerHTML = originalText; btn.disabled = false; }
+}
 
         async function handleSaveSettings(e) {
             e.preventDefault();
@@ -1635,7 +1675,6 @@
             };
             
             addNavItems('Dashboard', 'layout-dashboard', 'dashboard', true);
-            // MENU PESANAN BARU DITAMBAHKAN DI SINI
             addNavItems('Pesanan', 'shopping-cart', 'orders', false); 
             addNavItems('Agencies', 'users', 'agencies', false);
 
@@ -1661,7 +1700,6 @@
                 addNavItems('Pengaturan', 'settings', 'settings', false);
                 document.getElementById('btn-add-product').classList.remove('hidden');
                 
-                // Cek eksistensi sebelum menghapus class hidden (Biar Agency gak nyangkut/freeze)
                 const btnClearPending = document.getElementById('btn-clear-pending');
                 if (btnClearPending) {
                     btnClearPending.classList.remove('hidden');
@@ -1671,7 +1709,6 @@
                     btnBroadcast.classList.remove('hidden');
                 }
             } else {
-                // PASTIKAN elemen yang HANYA untuk Admin tidak muncul dan tidak error di Agency
                 const btnAddProduct = document.getElementById('btn-add-product');
                 if (btnAddProduct) btnAddProduct.classList.add('hidden');
                 
@@ -1696,12 +1733,18 @@
             const backdrops = document.querySelectorAll('[id^="modal-"]');
             backdrops.forEach(modal => modal.classList.add('hidden'));
 
+            // === SUNTIKAN KODE BARU DI SINI ===
+            const logoInput = document.getElementById('profile-agency-logo');
+            if (logoInput) {
+                logoInput.value = appState.user.agency_logo_url || '';
+            }
+            // ==================================
+
             lucide.createIcons();
             renderDashboard();
             renderOrdersTable();
             renderAgenciesTable();
         }
-
         function createDesktopNavItem(label, iconName, viewId, isActive) {
             const a = document.createElement('a');
             a.href = '#';
