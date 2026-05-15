@@ -1592,7 +1592,7 @@
                         ${o.status === 'PENDING' ? `
                             <div class="flex justify-end space-x-2">
                                 <button onclick="window.open('${waLink}', '_blank')" title="Follow-up WA" class="bg-[#222] hover:bg-borderMain text-gray-300 border border-borderMain p-2 rounded transition-colors flex items-center justify-center">
-                                    <i data-lucide="message-circle" class="w-4 h-4"></i>
+                                    <i data-lucide="message-circle" class="w-4 h-4 text-green-500"></i>
                                 </button>
                                 <button onclick="approveOrder('${o.id}')" title="Tandai Lunas" class="bg-green-600 hover:bg-green-700 text-white px-3 py-1.5 rounded text-xs font-bold shadow-lg transition-colors flex items-center">
                                     <i data-lucide="check" class="w-4 h-4 mr-1"></i> Lunas
@@ -2275,6 +2275,23 @@
             lucide.createIcons();
             setTimeout(() => { toast.classList.add('translate-x-full', 'opacity-0'); }, 4000);
         }
+
+        // --- FUNGSI EXPORT CSV (WAJIB ADA BIAR TOMBOL JALAN) ---
+function exportOrdersToCSV() {
+    if(!appState.orders || appState.orders.length === 0) return showToast('Error', 'Data pesanan kosong.', true);
+    let csv = 'Order ID,Tanggal,Produk,Harga,Nama Customer,WhatsApp,Email,Status\n';
+    appState.orders.forEach(o => {
+        csv += `"${o.id}","${o.timestamp}","${o.product_name}","${o.price}","${o.customer_name}","${o.customer_wa}","${o.customer_email}","${o.status}"\n`;
+    });
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.setAttribute("href", url);
+    link.setAttribute("download", `Laporan_Order_${appState.user.name.replace(/ /g,'_')}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
     </script>
 </body>
 </html>
