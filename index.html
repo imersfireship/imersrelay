@@ -1956,6 +1956,10 @@
                         </span>
                     </td>
                     <td class="px-4 sm:px-6 py-4 whitespace-nowrap text-right text-sm font-medium flex justify-end space-x-2">
+                        <button onclick="sendManualWa('${a.name}', '${a.email}', '${a.phone}')" title="Kirim Akses via WA" class="text-green-500 hover:text-white hover:bg-green-600 bg-dark border border-borderMain p-1.5 sm:p-2 rounded-md transition-colors flex items-center">
+                            <i data-lucide="message-circle" class="w-4 h-4 sm:mr-1"></i> <span class="hidden sm:inline text-[10px]">Akses</span>
+                        </button>
+
                         <button onclick="openManageAccessModal('${a.id}', '${a.name.replace(/'/g, "\\'")}')" title="Kelola Akses Produk" class="text-primary hover:text-primaryHover bg-dark hover:bg-[#222] border border-borderMain p-1.5 sm:p-2 rounded-md transition-colors flex items-center">
                             <i data-lucide="key" class="w-4 h-4 mr-1"></i> Akses
                         </button>
@@ -1969,7 +1973,6 @@
                 </tr>`).join('');
             lucide.createIcons();
         }
-
         function openModal(id) { document.getElementById(id).classList.remove('hidden'); }
         function closeModal(id) { 
             document.getElementById(id).classList.add('hidden'); 
