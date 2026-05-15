@@ -165,7 +165,7 @@
           <div class="price-desc">Sekali bayar • Tanpa subscription bulanan</div>
           
           <!-- TOMBOL CHECKOUT MENGARAH KE VERCEL (Ganti URL Vercel lu di Sini) -->
-          <a href="https://alldigital.web.id/imersrelay/?checkout=true&product=iMersWamel&price=37000&ref=ADM-F509CCDE" class="btn btn-beli">
+          <a href="https://demoimersgate.vercel.app/?checkout=true&product=iMersMAWEL%20Reseller%20Right&price=37000" class="btn btn-beli">
             🚀 Ambil Sekarang
           </a>
 
@@ -213,8 +213,13 @@
         const refId = new URLSearchParams(window.location.search).get('ref');
         if(refId) {
             document.querySelectorAll('.btn-beli').forEach(btn => {
-                const separator = btn.href.includes('?') ? '&' : '?';
-                btn.href = btn.href + separator + 'ref=' + refId;
+                try {
+                    let url = new URL(btn.href);
+                    url.searchParams.set('ref', refId); 
+                    btn.href = url.toString();
+                } catch(e) {
+                    console.error("Gagal parse URL tombol:", e);
+                }
             });
         }
     });
