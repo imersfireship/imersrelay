@@ -152,6 +152,76 @@
         </div>
     </div>
 
+    <!-- STANDALONE CHECKOUT VIEW (NEW!) -->
+    <div id="checkout-view" class="hidden fixed inset-0 bg-dark z-50 overflow-y-auto fade-in">
+        <div class="min-h-screen flex items-center justify-center p-4">
+            <div class="bg-card w-full max-w-md rounded-2xl shadow-2xl border border-borderMain overflow-hidden relative">
+                <!-- Loading overlay initially active -->
+                <div id="co-loader-overlay" class="absolute inset-0 bg-card z-20 flex flex-col items-center justify-center">
+                    <div class="loader mb-4"></div>
+                    <p class="text-gray-400 text-sm">Menyiapkan pembayaran...</p>
+                </div>
+                
+                <div class="bg-[#222] p-6 text-center border-b border-borderMain relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-24 h-24 bg-primary/10 rounded-bl-full -mr-4 -mt-4 z-0"></div>
+                    <div id="co-agency-badge" class="hidden absolute top-4 right-4 bg-primary/10 text-primary text-[10px] px-2 py-1 rounded font-bold uppercase tracking-widest z-10">
+                        Official Partner
+                    </div>
+                    <h2 class="text-xl font-bold text-primary relative z-10" id="co-brand-name">iMersRELAY</h2>
+                    <p class="text-xs text-gray-400 mt-1 relative z-10" id="co-agency-name">Memuat Data...</p>
+                </div>
+                
+                <div class="p-6">
+                    <div class="mb-6 bg-dark p-4 rounded-xl border border-borderMain">
+                        <p class="text-xs text-gray-500 font-mono mb-1">RINGKASAN PESANAN</p>
+                        <h3 class="text-lg font-bold text-textMain leading-tight" id="co-prod-name">Nama Produk</h3>
+                        <div class="mt-3 flex justify-between items-center border-t border-[#333] pt-3">
+                            <span class="text-sm text-gray-400">Total Pembayaran</span>
+                            <span class="text-xl font-bold text-primary" id="co-prod-price">Rp 0</span>
+                        </div>
+                    </div>
+
+                    <form id="form-standalone-checkout" class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-300 mb-1">Nama Lengkap</label>
+                            <input type="text" id="co-input-name" required class="w-full px-4 py-2.5 bg-dark border border-borderMain text-textMain rounded-lg focus:ring-2 focus:ring-primary outline-none transition-all placeholder-gray-600" placeholder="Cth: Budi Santoso">
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-300 mb-1">No. WhatsApp</label>
+                                <input type="number" id="co-input-wa" required class="w-full px-4 py-2.5 bg-dark border border-borderMain text-textMain rounded-lg focus:ring-2 focus:ring-primary outline-none transition-all placeholder-gray-600" placeholder="0812...">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-300 mb-1">Email Aktif</label>
+                                <input type="email" id="co-input-email" required class="w-full px-4 py-2.5 bg-dark border border-borderMain text-textMain rounded-lg focus:ring-2 focus:ring-primary outline-none transition-all placeholder-gray-600" placeholder="budi@gmail.com">
+                            </div>
+                        </div>
+
+                        <div class="mt-6 pt-6 border-t border-borderMain">
+                            <h4 class="text-sm font-bold text-textMain mb-3">Tujuan Transfer</h4>
+                            <div id="co-qris-container" class="hidden mb-4 p-2 bg-white rounded-xl mx-auto w-40 h-40 border-4 border-primary">
+                                <img id="co-qris-img" src="" alt="QRIS" class="w-full h-full object-cover rounded-lg">
+                            </div>
+                            <div class="bg-[#222] p-4 rounded-xl border border-borderMain flex items-center">
+                                <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mr-3 flex-shrink-0">
+                                    <i data-lucide="credit-card" class="w-5 h-5 text-primary"></i>
+                                </div>
+                                <div class="overflow-hidden">
+                                    <p id="co-bank-details" class="text-lg font-bold text-textMain tracking-wide truncate">BCA 1234567</p>
+                                    <p id="co-bank-owner" class="text-xs text-gray-400 mt-0.5 uppercase truncate">A.N BUNDA</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="submit" id="btn-submit-co" class="w-full bg-primary hover:bg-primaryHover text-white py-3.5 rounded-xl font-bold mt-6 shadow-lg shadow-primary/30 transition-all flex items-center justify-center">
+                            Kirim Pesanan ke WA <i data-lucide="send" class="w-4 h-4 ml-2"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- ERROR VIEW -->
     <div id="error-view" class="hidden fixed inset-0 bg-dark z-40 flex flex-col items-center justify-center fade-in">
         <div class="bg-card border border-borderMain p-8 rounded-2xl shadow-2xl flex flex-col items-center max-w-md w-full mx-4 text-center">
@@ -239,7 +309,6 @@
                     </div>
                     <span id="sidebar-brand-name" class="text-lg font-extrabold tracking-wide truncate text-primary">iMersRELAY</span>
                 </div>
-                <!-- Mobile Close Sidebar Button -->
                 <button onclick="toggleSidebar()" class="lg:hidden text-gray-400 hover:text-white focus:outline-none">
                     <i data-lucide="x" class="w-5 h-5"></i>
                 </button>
@@ -281,13 +350,26 @@
                     <!-- Top Stats (Diperbarui dengan Omzet & Pending) -->
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8" id="stats-container"></div>
                     
-                    <!-- Grafik Area (Fitur Baru) -->
-                    <div class="mb-8 bg-card rounded-xl border border-borderMain p-6 shadow-lg">
-                        <h3 class="text-lg font-bold text-textMain mb-4 flex items-center">
-                            <i data-lucide="bar-chart-2" class="w-5 h-5 mr-2 text-primary"></i> Analitik Penjualan
-                        </h3>
-                        <div class="h-64 w-full relative">
-                            <canvas id="salesChart"></canvas>
+                    <!-- AREA GRAFIK & LEADERBOARD (FITUR 1) -->
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+                        <!-- Grafik Area -->
+                        <div class="lg:col-span-2 bg-card rounded-xl border border-borderMain p-6 shadow-lg">
+                            <h3 class="text-lg font-bold text-textMain mb-4 flex items-center">
+                                <i data-lucide="bar-chart-2" class="w-5 h-5 mr-2 text-primary"></i> Analitik Penjualan
+                            </h3>
+                            <div class="h-64 w-full relative">
+                                <canvas id="salesChart"></canvas>
+                            </div>
+                        </div>
+
+                        <!-- Leaderboard Area (Hanya Admin) -->
+                        <div id="leaderboard-container" class="hidden bg-card rounded-xl border border-borderMain p-6 shadow-lg flex flex-col">
+                            <h3 class="text-lg font-bold text-textMain mb-4 flex items-center">
+                                <i data-lucide="award" class="w-5 h-5 mr-2 text-yellow-500"></i> Top 5 Agency
+                            </h3>
+                            <div id="leaderboard-list" class="space-y-3 overflow-y-auto flex-1 pr-2 no-scrollbar">
+                                <!-- Isi Leaderboard via JS -->
+                            </div>
                         </div>
                     </div>
 
@@ -304,7 +386,7 @@
                     <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 pb-6"></div>
                 </div>
 
-                <!-- ORDERS VIEW (PESANAN MASUK - FITUR BARU) -->
+                <!-- ORDERS VIEW (PESANAN MASUK - FITUR 2: FOLLOW UP) -->
                 <div id="view-orders" class="view-section hidden fade-in">
                     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 space-y-4 sm:space-y-0">
                         <div>
@@ -344,9 +426,15 @@
                             <h3 class="text-lg font-bold text-textMain">Agency Management</h3>
                             <p class="text-sm text-gray-400">Kelola akun agency bawahan Anda dan atur akses produk.</p>
                         </div>
-                        <button onclick="openCreateAgencyModal()" class="w-full sm:w-auto bg-primary hover:bg-primaryHover text-white px-4 py-2 rounded-lg text-sm font-medium flex justify-center items-center shadow-lg shadow-primary/20 transition-colors">
-                            <i data-lucide="user-plus" class="w-4 h-4 mr-2"></i> Create Agency
-                        </button>
+                        <div class="flex space-x-2 w-full sm:w-auto">
+                            <!-- TOMBOL BROADCAST KHUSUS ADMIN (FITUR 4) -->
+                            <button id="btn-open-broadcast" onclick="openModal('modal-broadcast')" class="hidden flex-1 sm:flex-none bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium flex justify-center items-center shadow-lg shadow-blue-600/20 transition-colors">
+                                <i data-lucide="megaphone" class="w-4 h-4 mr-2"></i> Broadcast
+                            </button>
+                            <button onclick="openCreateAgencyModal()" class="flex-1 sm:flex-none bg-primary hover:bg-primaryHover text-white px-4 py-2 rounded-lg text-sm font-medium flex justify-center items-center shadow-lg shadow-primary/20 transition-colors">
+                                <i data-lucide="user-plus" class="w-4 h-4 mr-2"></i> Create
+                            </button>
+                        </div>
                     </div>
                     <div class="bg-card rounded-xl shadow-lg border border-borderMain overflow-hidden">
                         <div class="overflow-x-auto w-full">
@@ -611,7 +699,7 @@
 
     <!-- MODALS -->
     
-    <!-- Confirm Modal (Hapus) -->
+    <!-- Confirm Modal (Hapus/Aksi Berbahaya) -->
     <div id="modal-confirm" class="fixed inset-0 z-50 hidden">
         <div class="absolute inset-0 bg-dark/80 backdrop-blur-sm" onclick="closeModal('modal-confirm')"></div>
         <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[90%] sm:w-full max-w-sm bg-card border border-borderMain rounded-2xl shadow-2xl flex flex-col fade-in p-6 text-center">
@@ -622,8 +710,42 @@
             <p class="text-gray-400 text-sm mb-6" id="confirm-message">Apakah Anda yakin ingin menghapus data ini?</p>
             <div class="flex flex-col sm:flex-row justify-center space-y-3 sm:space-y-0 sm:space-x-3">
                 <button type="button" onclick="closeModal('modal-confirm')" class="px-4 py-2 text-sm font-medium text-gray-300 bg-[#222] hover:bg-borderMain rounded-lg w-full transition-colors">Batal</button>
-                <button type="button" id="btn-confirm-action" onclick="executeConfirm()" class="px-4 py-2 text-sm font-medium bg-red-600 hover:bg-red-700 text-white rounded-lg w-full flex justify-center items-center shadow-lg shadow-red-600/20 transition-colors">Hapus</button>
+                <button type="button" id="btn-confirm-action" onclick="executeConfirm()" class="px-4 py-2 text-sm font-medium bg-red-600 hover:bg-red-700 text-white rounded-lg w-full flex justify-center items-center shadow-lg shadow-red-600/20 transition-colors">Lanjutkan</button>
             </div>
+        </div>
+    </div>
+
+    <!-- Modal Broadcast (Khusus Admin) -->
+    <div id="modal-broadcast" class="fixed inset-0 z-50 hidden">
+        <div class="absolute inset-0 bg-dark/80 backdrop-blur-sm" onclick="closeModal('modal-broadcast')"></div>
+        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[95%] sm:w-full max-w-lg bg-card border border-borderMain rounded-2xl shadow-2xl flex flex-col fade-in overflow-hidden">
+            <div class="flex justify-between items-center p-4 sm:p-6 border-b border-borderMain bg-[#1A1A1A]">
+                <h3 class="text-lg font-bold text-textMain flex items-center"><i data-lucide="megaphone" class="w-5 h-5 mr-2 text-blue-500"></i> Broadcast Pengumuman</h3>
+                <button onclick="closeModal('modal-broadcast')" class="text-gray-400 hover:text-gray-200"><i data-lucide="x" class="w-5 h-5"></i></button>
+            </div>
+            <form id="form-broadcast" class="p-6" onsubmit="handleBroadcast(event)">
+                <p class="text-sm text-gray-400 mb-4">Pesan Anda akan dikirim ke seluruh <strong>Agency Aktif</strong> yang terdaftar di sistem.</p>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-300 mb-1">Isi Pesan / Pengumuman</label>
+                    <textarea id="broadcast-msg" rows="5" required placeholder="Ketik pesan Anda di sini..." class="w-full px-4 py-3 bg-dark border border-borderMain text-textMain rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-sm"></textarea>
+                </div>
+                <div class="flex items-center space-x-4 mb-6">
+                    <label class="flex items-center space-x-2 cursor-pointer">
+                        <input type="checkbox" id="bc-wa" checked class="custom-checkbox rounded bg-dark border-borderMain">
+                        <span class="text-sm text-gray-300">Via WhatsApp</span>
+                    </label>
+                    <label class="flex items-center space-x-2 cursor-pointer">
+                        <input type="checkbox" id="bc-email" checked class="custom-checkbox rounded bg-dark border-borderMain">
+                        <span class="text-sm text-gray-300">Via Email</span>
+                    </label>
+                </div>
+                <div class="flex justify-end space-x-3 border-t border-borderMain pt-4">
+                    <button type="button" onclick="closeModal('modal-broadcast')" class="px-4 py-2 text-sm font-medium text-gray-400 hover:text-white transition-colors">Batal</button>
+                    <button type="submit" id="btn-submit-broadcast" class="px-6 py-2 text-sm font-medium bg-blue-600 hover:bg-blue-700 text-white rounded-lg shadow-lg flex items-center transition-colors">
+                        Kirim Broadcast <i data-lucide="send" class="w-4 h-4 ml-2"></i>
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 
@@ -742,7 +864,7 @@
         </div>
     </div>
 
-    <!-- Create Product Modal (Diperbarui dengan Harga) -->
+    <!-- Create Product Modal -->
     <div id="modal-add-product" class="fixed inset-0 z-50 hidden">
         <div class="absolute inset-0 bg-dark/80 backdrop-blur-sm" onclick="closeModal('modal-add-product')"></div>
         <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[95%] sm:w-full max-w-lg bg-card border border-borderMain rounded-2xl shadow-2xl flex flex-col fade-in max-h-[90vh] overflow-hidden">
@@ -765,8 +887,8 @@
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-300 mb-1">URL Salespage Master (Opsional)</label>
-                    <input type="url" id="new-product-salespage" placeholder="https://domainlu.com/lp/ecourse" class="w-full px-4 py-2 bg-dark border border-borderMain text-textMain rounded-lg focus:ring-2 focus:ring-primary outline-none">
-                    <p class="text-xs text-gray-500 mt-1">Sistem akan menambahkan <code class="text-primary">?ref=ID_AGENCY</code> saat disalin oleh agency.</p>
+                    <input type="url" id="new-product-salespage" placeholder="Kosongkan untuk pakai Direct Checkout bawaan" class="w-full px-4 py-2 bg-dark border border-borderMain text-textMain rounded-lg focus:ring-2 focus:ring-primary outline-none">
+                    <p class="text-xs text-gray-500 mt-1">Jika dikosongkan, Agency otomatis mendapatkan link <strong>Hosted Checkout</strong>.</p>
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-300 mb-1">Konten Akses (Dukung HTML / Link Download)</label>
@@ -781,7 +903,7 @@
         </div>
     </div>
 
-    <!-- Edit Product Modal (Diperbarui dengan Harga) -->
+    <!-- Edit Product Modal -->
     <div id="modal-edit-product" class="fixed inset-0 z-50 hidden">
         <div class="absolute inset-0 bg-dark/80 backdrop-blur-sm" onclick="closeModal('modal-edit-product')"></div>
         <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[95%] sm:w-full max-w-lg bg-card border border-borderMain rounded-2xl shadow-2xl flex flex-col fade-in max-h-[90vh] overflow-hidden">
@@ -843,45 +965,137 @@
     <!-- FRONTEND LOGIC -->
     <script>
         // ========================================================
-        // URL WEB APP APPS SCRIPT ANDA
-        // PASTIKAN MENGGUNAKAN URL DARI "NEW DEPLOYMENT" iMersRELAY
+        // ⚠️ INI UDAH PAKAI URL APPS SCRIPT LU YANG TERBARU ⚠️
         // ========================================================
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxvNE-egrq1utNnYynPgI5pjK-h3sYTSIaU3VySIRyk8g9i_jOjn8GHDC1s80uZeFWVaQ/exec'; 
 
-        // State Aplikasi ditambah Orders dan Stats
-        let appState = { user: null, products: [], agencies: [], allProducts: [], settings: {}, dynamicMenus: [], stats: {}, orders: [] };
+        // State Aplikasi (ditambah leaderboard)
+        let appState = { user: null, products: [], agencies: [], allProducts: [], settings: {}, dynamicMenus: [], stats: {}, orders: [], leaderboard: [] };
         let confirmActionCallback = null;
-        let salesChartInstance = null; // Variabel penampung grafik
+        let salesChartInstance = null;
 
         document.addEventListener('DOMContentLoaded', () => {
             lucide.createIcons();
+            
+            // 🚀 ROUTER: Deteksi Standalone Checkout Route
+            const urlParams = new URLSearchParams(window.location.search);
+            if(urlParams.get('checkout') === 'true') {
+                initStandaloneCheckout(urlParams);
+                return; // Stop normal init (jadi mode form checkout)
+            }
+
             applyBranding(JSON.parse(localStorage.getItem('imersgate_branding') || '{}'));
             fetchInitialData();
         });
 
-        // --- MOBILE SIDEBAR TOGGLE ---
-        function toggleSidebar() {
-            const sidebar = document.getElementById('sidebar');
-            const backdrop = document.getElementById('sidebar-backdrop');
-            sidebar.classList.toggle('-translate-x-full');
-            backdrop.classList.toggle('hidden');
+        // ====================================================
+        // LOGIKA STANDALONE CHECKOUT (TANPA LANDING PAGE)
+        // ====================================================
+        let checkoutAgencyData = null;
+        let checkoutProductName = '';
+        let checkoutProductPrice = '';
+
+        async function initStandaloneCheckout(params) {
+            document.getElementById('loading-view').classList.add('hidden');
+            document.getElementById('checkout-view').classList.remove('hidden');
+
+            checkoutProductName = params.get('product') || 'Produk Digital';
+            checkoutProductPrice = params.get('price') || '0';
+            const refId = params.get('ref') || 'admin';
+
+            document.getElementById('co-prod-name').innerText = checkoutProductName;
+            document.getElementById('co-prod-price').innerText = 'Rp ' + Number(checkoutProductPrice).toLocaleString('id-ID');
+
+            const savedBranding = JSON.parse(localStorage.getItem('imersgate_branding') || '{}');
+            if(savedBranding.brandName) document.getElementById('co-brand-name').innerText = savedBranding.brandName;
+
+            try {
+                const response = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    body: JSON.stringify({ action: 'getCheckoutInfo', payload: { agencyId: refId } })
+                });
+                const result = await response.json();
+                if(!result.success) throw new Error(result.error);
+
+                checkoutAgencyData = result.data;
+                document.getElementById('co-agency-name').innerText = "Dilayani oleh: " + checkoutAgencyData.agencyName;
+                document.getElementById('co-agency-badge').classList.remove('hidden');
+
+                const bankText = checkoutAgencyData.bankName ? `${checkoutAgencyData.bankName} ${checkoutAgencyData.bankAccount}` : 'Bank Transfer';
+                const ownerText = checkoutAgencyData.bankOwner ? `A.N ${checkoutAgencyData.bankOwner}` : `A.N ${checkoutAgencyData.agencyName}`;
+                
+                document.getElementById('co-bank-details').innerText = bankText;
+                document.getElementById('co-bank-owner').innerText = ownerText.toUpperCase();
+
+                if (checkoutAgencyData.qrisUrl && checkoutAgencyData.qrisUrl.length > 5) {
+                    document.getElementById('co-qris-img').src = checkoutAgencyData.qrisUrl;
+                    document.getElementById('co-qris-container').classList.remove('hidden');
+                }
+
+                document.getElementById('co-loader-overlay').classList.add('hidden');
+
+            } catch(e) {
+                document.getElementById('co-loader-overlay').innerHTML = `<p class="text-red-500 font-bold">Gagal memuat data penjual.</p>`;
+            }
+
+            document.getElementById('form-standalone-checkout').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                if(!checkoutAgencyData) return alert('Data penjual belum siap!');
+                
+                const btn = document.getElementById('btn-submit-co');
+                const originalText = btn.innerHTML;
+                btn.innerHTML = `<div class="loader w-4 h-4 mr-2 border-2 border-white border-t-transparent rounded-full animate-spin"></div> Memproses...`;
+                btn.disabled = true;
+
+                const name = document.getElementById('co-input-name').value;
+                const wa = document.getElementById('co-input-wa').value;
+                const email = document.getElementById('co-input-email').value;
+
+                try {
+                    const response = await fetch(SCRIPT_URL, {
+                        method: 'POST',
+                        body: JSON.stringify({ 
+                            action: 'createOrder', 
+                            payload: { productName: checkoutProductName, price: checkoutProductPrice, customerName: name, customerWa: wa, customerEmail: email, agencyId: checkoutAgencyData.id || refId } 
+                        })
+                    });
+                    const res = await response.json();
+                    
+                    let phoneTarget = String(checkoutAgencyData.phone).replace(/\D/g, '');
+                    if (phoneTarget.startsWith('0')) phoneTarget = '62' + phoneTarget.substring(1);
+                    if (phoneTarget.startsWith('8')) phoneTarget = '62' + phoneTarget;
+
+                    let msg = `Halo kak ${checkoutAgencyData.agencyName}, saya mau order:\n\n`;
+                    msg += `📦 *Produk:* ${checkoutProductName}\n`;
+                    let finalPrice = (res.success && res.data && res.data.price) ? res.data.price : checkoutProductPrice;
+                    msg += `💰 *Harga:* Rp ${Number(finalPrice).toLocaleString('id-ID')}\n\n`;
+                    msg += `👤 *Data Saya:*\nNama: ${name}\nWA: ${wa}\nEmail: ${email}\n\n`;
+                    let bankInfo = checkoutAgencyData.bankName ? `${checkoutAgencyData.bankName} ${checkoutAgencyData.bankAccount}` : 'Bank Transfer';
+                    let orderIdInfo = res.success ? `(Order ID: ${res.data.orderId})` : '';
+                    msg += `Saya akan transfer ke rekening *${bankInfo}*. Mohon diproses ya kak! ${orderIdInfo}`;
+
+                    window.location.href = `https://wa.me/${phoneTarget}?text=${encodeURIComponent(msg)}`;
+                } catch(e) { 
+                    alert("Terjadi kesalahan sistem. Coba lagi.");
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                }
+            });
         }
 
-        function closeSidebar() {
-            if (window.innerWidth < 1024) { 
-                document.getElementById('sidebar').classList.add('-translate-x-full');
-                document.getElementById('sidebar-backdrop').classList.add('hidden');
-            }
-        }
 
         // --- COPY SALESPAGE LINK LOGIC ---
-        function copySalespageLink(masterUrl) {
+        function copySalespageLink(masterUrl, prodName, prodPrice) {
+            let finalUrl = '';
+            
+            // 🚀 JIKA MASTER URL KOSONG, BUAT LINK HOSTED CHECKOUT BAWAAN!
             if(!masterUrl || masterUrl === 'undefined' || masterUrl === '') { 
-                showToast('Error', 'Link salespage belum diset oleh Admin.', true); 
-                return; 
+                const baseUrl = window.location.origin + window.location.pathname;
+                finalUrl = `${baseUrl}?checkout=true&product=${encodeURIComponent(prodName)}&price=${prodPrice}&ref=${appState.user.id}`;
+            } else {
+                const separator = masterUrl.includes('?') ? '&' : '?';
+                finalUrl = `${masterUrl}${separator}ref=${appState.user.id}`;
             }
-            const separator = masterUrl.includes('?') ? '&' : '?';
-            const finalUrl = `${masterUrl}${separator}ref=${appState.user.id}`;
 
             if (navigator.clipboard && window.isSecureContext) {
                 navigator.clipboard.writeText(finalUrl).then(() => {
@@ -908,6 +1122,21 @@
                 showToast('Error', 'Gagal menyalin link.', true);
             }
             document.body.removeChild(textArea);
+        }
+
+        // --- CORE FUNCTIONS (MOBILE, WA, DLL) ---
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const backdrop = document.getElementById('sidebar-backdrop');
+            sidebar.classList.toggle('-translate-x-full');
+            backdrop.classList.toggle('hidden');
+        }
+
+        function closeSidebar() {
+            if (window.innerWidth < 1024) { 
+                document.getElementById('sidebar').classList.add('-translate-x-full');
+                document.getElementById('sidebar-backdrop').classList.add('hidden');
+            }
         }
 
         function formatWaNumber(phone) {
@@ -959,7 +1188,7 @@
                 const userObj = JSON.parse(storedUser);
                 const data = await callBackend('getDashboardData', { userId: userObj.id });
                 
-                Object.assign(appState, data);
+                Object.assign(appState, data); // Inject leaderboard dll otomatis
                 
                 if(appState.user.role === 'admin') {
                     appState.allProducts = data.products;
@@ -1282,7 +1511,7 @@
             finally { btn.innerHTML = originalText; btn.disabled = false; }
         }
 
-        // --- ORDER MANAGEMENT (PESANAN MASUK) ---
+        // --- ORDER MANAGEMENT (PESANAN MASUK & FOLLOW UP WA) ---
         function renderOrdersTable() {
             const tbody = document.getElementById('orders-table-body');
             if(!appState.orders || appState.orders.length === 0) {
@@ -1291,7 +1520,12 @@
             }
             
             tbody.innerHTML = appState.orders.map(o => {
-                let badge = o.status === 'LUNAS' ? 'bg-green-500/20 text-green-500' : 'bg-yellow-500/20 text-yellow-500';
+                let badge = o.status === 'LUNAS' ? 'bg-green-500/20 text-green-500 border border-green-500/30' : 'bg-yellow-500/20 text-yellow-500 border border-yellow-500/30';
+                
+                // Pesan Follow-up WA (Hanya untuk yang PENDING)
+                let waMsg = `Halo kak ${o.customer_name},\nKami melihat Anda telah melakukan pemesanan untuk *${o.product_name}* namun belum menyelesaikan pembayaran.\n\nApakah ada kendala? Jika butuh bantuan, silakan balas pesan ini ya kak. Terima kasih!`;
+                let waLink = `https://wa.me/${formatWaNumber(o.customer_wa)}?text=${encodeURIComponent(waMsg)}`;
+
                 return `
                 <tr class="hover:bg-borderMain transition-colors border-b border-borderMain">
                     <td class="px-4 sm:px-6 py-4 whitespace-nowrap">
@@ -1304,16 +1538,21 @@
                     </td>
                     <td class="px-4 sm:px-6 py-4 whitespace-nowrap">
                         <div class="text-sm text-textMain">${o.customer_name}</div>
-                        <div class="text-xs text-gray-400">${o.customer_wa}</div>
+                        <div class="text-xs text-gray-400 flex items-center mt-1"><i data-lucide="phone" class="w-3 h-3 mr-1"></i> ${o.customer_wa}</div>
                     </td>
                     <td class="px-4 sm:px-6 py-4 whitespace-nowrap text-center">
                         <span class="px-3 py-1 rounded text-xs font-bold ${badge}">${o.status}</span>
                     </td>
                     <td class="px-4 sm:px-6 py-4 whitespace-nowrap text-right">
                         ${o.status === 'PENDING' ? `
-                            <button onclick="approveOrder('${o.id}')" class="bg-green-600 hover:bg-green-700 text-white px-3 py-1.5 rounded text-xs font-bold shadow-lg transition-colors">
-                                Tandai Lunas
-                            </button>
+                            <div class="flex justify-end space-x-2">
+                                <button onclick="window.open('${waLink}', '_blank')" title="Follow-up WA" class="bg-[#222] hover:bg-borderMain text-gray-300 border border-borderMain p-2 rounded transition-colors flex items-center justify-center">
+                                    <i data-lucide="message-circle" class="w-4 h-4"></i>
+                                </button>
+                                <button onclick="approveOrder('${o.id}')" title="Tandai Lunas" class="bg-green-600 hover:bg-green-700 text-white px-3 py-1.5 rounded text-xs font-bold shadow-lg transition-colors flex items-center">
+                                    <i data-lucide="check" class="w-4 h-4 mr-1"></i> Lunas
+                                </button>
+                            </div>
                         ` : `<span class="text-gray-500 text-xs">-</span>`}
                     </td>
                 </tr>`;
@@ -1348,6 +1587,35 @@
                 finally { closeModal('modal-confirm'); }
             }); 
         }
+
+        // --- BROADCAST (Admin Only) ---
+        async function handleBroadcast(e) {
+            e.preventDefault();
+            const btn = document.getElementById('btn-submit-broadcast');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = `<div class="loader mr-2 w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div> Mengirim...`; 
+            btn.disabled = true;
+
+            const payload = {
+                message: document.getElementById('broadcast-msg').value,
+                viaWa: document.getElementById('bc-wa').checked,
+                viaEmail: document.getElementById('bc-email').checked
+            };
+
+            if(!payload.viaWa && !payload.viaEmail) {
+                showToast('Error', 'Pilih minimal satu metode pengiriman (WA atau Email).', true);
+                btn.innerHTML = originalText; btn.disabled = false; return;
+            }
+
+            try {
+                const res = await callBackend('broadcastMessage', { adminId: appState.user.id, ...payload });
+                showToast('Sukses', `Broadcast berhasil dikirim ke ${res.count} Agency aktif.`);
+                closeModal('modal-broadcast');
+                document.getElementById('form-broadcast').reset();
+            } catch (err) { showToast('Error', err.message, true); } 
+            finally { btn.innerHTML = originalText; btn.disabled = false; }
+        }
+
 
         // --- MENU & LAYOUTING ---
         function buildUI() {
@@ -1398,6 +1666,10 @@
                 if (btnClearPending) {
                     btnClearPending.classList.remove('hidden');
                 }
+                const btnBroadcast = document.getElementById('btn-open-broadcast');
+                if (btnBroadcast) {
+                    btnBroadcast.classList.remove('hidden');
+                }
             } else {
                 // PASTIKAN elemen yang HANYA untuk Admin tidak muncul dan tidak error di Agency
                 const btnAddProduct = document.getElementById('btn-add-product');
@@ -1405,6 +1677,9 @@
                 
                 const btnClearPending = document.getElementById('btn-clear-pending');
                 if (btnClearPending) btnClearPending.classList.add('hidden');
+
+                const btnBroadcast = document.getElementById('btn-open-broadcast');
+                if (btnBroadcast) btnBroadcast.classList.add('hidden');
             }
             addNavItems('Akun Saya', 'user', 'account', false);
 
@@ -1483,7 +1758,7 @@
             if (activeMobileNav) activeMobileNav.className = 'flex-shrink-0 flex flex-col items-center justify-center w-[72px] sm:w-20 h-full transition-colors text-primary';
         }
 
-        // --- RENDER DASHBOARD (STATS & CHART) ---
+        // --- RENDER DASHBOARD (STATS, CHART & LEADERBOARD) ---
         function renderDashboard() {
             let s = appState.stats || { totalOmset:0, pendingCount:0 };
 
@@ -1539,7 +1814,7 @@
                             <div class="mt-4 pt-4 border-t border-borderMain flex justify-between items-center">
                                 <span class="text-[10px] sm:text-xs font-medium px-2 py-1 bg-primary/10 text-primary rounded">Active</span>
                                 <div class="flex space-x-2">
-                                    ${p.salespageUrl ? `<button onclick="copySalespageLink('${p.salespageUrl}')" title="Copy Link Promosi" class="text-gray-400 hover:text-primary bg-dark px-3 py-1.5 rounded-lg border border-borderMain transition-colors flex items-center"><i data-lucide="link" class="w-4 h-4"></i></button>` : ''}
+                                    <button onclick="copySalespageLink('${p.salespageUrl || ''}', '${p.name.replace(/'/g, "\\'")}', '${p.price || 0}')" title="Copy Link Promosi" class="text-gray-400 hover:text-primary bg-dark px-3 py-1.5 rounded-lg border border-borderMain transition-colors flex items-center"><i data-lucide="link" class="w-4 h-4"></i></button>
                                     <button onclick="viewProductContent('${p.id}')" class="text-primary text-xs sm:text-sm font-medium hover:text-primaryHover bg-dark px-3 py-1.5 rounded-lg border border-borderMain transition-colors flex items-center">Akses <i data-lucide="arrow-right" class="w-3 h-3 sm:w-4 sm:h-4 ml-1"></i></button>
                                 </div>
                             </div>
@@ -1570,6 +1845,27 @@
             } else if (ctx) {
                 const parent = ctx.parentElement;
                 parent.innerHTML = '<canvas id="salesChart"></canvas><p class="absolute inset-0 flex items-center justify-center text-sm text-gray-500">Belum ada data produk terlaris.</p>';
+            }
+
+            // RENDER LEADERBOARD
+            if(appState.user.role === 'admin') {
+                const lbContainer = document.getElementById('leaderboard-container');
+                const lbList = document.getElementById('leaderboard-list');
+                lbContainer.classList.remove('hidden');
+                
+                if(!appState.leaderboard || appState.leaderboard.length === 0) {
+                    lbList.innerHTML = `<p class="text-sm text-gray-500 text-center py-6">Belum ada data penjualan.</p>`;
+                } else {
+                    lbList.innerHTML = appState.leaderboard.map((ag, index) => `
+                        <div class="flex items-center justify-between p-3 bg-[#222] border border-borderMain rounded-lg">
+                            <div class="flex items-center">
+                                <div class="w-8 h-8 rounded-full bg-dark border border-borderMain text-primary flex items-center justify-center font-bold text-sm mr-3">${index + 1}</div>
+                                <p class="text-sm font-bold text-textMain">${ag.name}</p>
+                            </div>
+                            <p class="text-sm font-bold text-green-500">Rp ${Number(ag.total).toLocaleString('id-ID')}</p>
+                        </div>
+                    `).join('');
+                }
             }
 
             lucide.createIcons();
@@ -1630,7 +1926,7 @@
         function closeModal(id) { 
             document.getElementById(id).classList.add('hidden'); 
             const btn = document.getElementById('btn-confirm-action');
-            if(btn) { btn.innerHTML = `Hapus`; btn.disabled = false; }
+            if(btn) { btn.innerHTML = `Lanjutkan`; btn.disabled = false; }
             if(id === 'modal-create-agency') document.getElementById('form-create-agency').reset();
             if(id === 'modal-add-product') document.getElementById('form-add-product').reset();
         }
