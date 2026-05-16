@@ -639,8 +639,7 @@
     </button>
 </div>
 
-                <!-- ACCOUNT VIEW (with Bank Details) -->
-                <div id="view-account" class="view-section hidden fade-in">
+                <<div id="view-account" class="view-section hidden fade-in">
     <div class="mb-4 sm:mb-6">
         <h3 class="text-lg font-bold text-textMain">Pengaturan Akun</h3>
         <p class="text-sm text-gray-400">Perbarui profil dan data pembayaran Anda.</p>
@@ -672,57 +671,53 @@
                     <p class="text-[10px] text-gray-500 italic">Logo ini akan muncul di halaman checkout menggantikan logo pusat khusus untuk link referal Anda.</p>
                 </div>
             </div>
-                            
-                            <hr class="border-borderMain">
-                            
-                            <!-- INFORMASI REKENING & PEMBAYARAN -->
-                            <div>
-                                <h4 class="text-sm font-bold text-gray-200 mb-4 flex items-center">
-                                    <i data-lucide="credit-card" class="w-4 h-4 mr-2 text-primary"></i> Data Rekening & Pembayaran
-                                </h4>
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
-                                    <div>
-                                        <label class="block text-sm font-medium text-gray-300 mb-1">Nama Bank / E-Wallet</label>
-                                        <input type="text" id="profile-bank-name" placeholder="Misal: BCA / OVO" class="w-full px-4 py-2 bg-dark border border-borderMain text-textMain rounded-lg focus:ring-2 focus:ring-primary outline-none">
-                                    </div>
-                                    <div>
-                                        <label class="block text-sm font-medium text-gray-300 mb-1">Nomor Rekening / No HP</label>
-                                        <input type="text" id="profile-bank-account" placeholder="Misal: 1234567890" class="w-full px-4 py-2 bg-dark border border-borderMain text-textMain rounded-lg focus:ring-2 focus:ring-primary outline-none">
-                                    </div>
-                                    <div class="md:col-span-2">
-                                        <label class="block text-sm font-medium text-gray-300 mb-1">Nama Pemilik Rekening</label>
-                                        <input type="text" id="profile-bank-owner" placeholder="Misal: Budi Santoso" class="w-full px-4 py-2 bg-dark border border-borderMain text-textMain rounded-lg focus:ring-2 focus:ring-primary outline-none">
-                                    </div>
-                                    <div class="md:col-span-2">
-                                        <label class="block text-sm font-medium text-gray-300 mb-1">URL Gambar QRIS (Opsional)</label>
-                                        <input type="url" id="profile-qris-url" placeholder="https://domain.com/qris.jpg" class="w-full px-4 py-2 bg-dark border border-borderMain text-textMain rounded-lg focus:ring-2 focus:ring-primary outline-none">
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <hr class="border-borderMain">
-                            <div>
-                                <h4 class="text-sm font-bold text-gray-200 mb-4">Ubah Password</h4>
-                                <div class="space-y-4">
-                                    <div>
-                                        <label class="block text-sm font-medium text-gray-300 mb-1">Password Saat Ini</label>
-                                        <input type="password" id="profile-old-password" placeholder="Kosongkan jika tidak ingin mengubah" class="w-full px-4 py-2 bg-dark border border-borderMain text-textMain rounded-lg focus:ring-2 focus:ring-primary outline-none max-w-md">
-                                    </div>
-                                    <div>
-                                        <label class="block text-sm font-medium text-gray-300 mb-1">Password Baru</label>
-                                        <input type="password" id="profile-new-password" class="w-full px-4 py-2 bg-dark border border-borderMain text-textMain rounded-lg focus:ring-2 focus:ring-primary outline-none max-w-md">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="pt-4 flex justify-end">
-                                <button type="submit" id="btn-submit-profile" class="w-full sm:w-auto px-6 py-2 text-sm font-medium bg-primary hover:bg-primaryHover text-white rounded-lg shadow-lg shadow-primary/20">Simpan Perubahan</button>
-                            </div>
-                        </form>
+                                            
+            <hr class="border-borderMain">
+                                            
+            <div>
+                <h4 class="text-sm font-bold text-gray-200 mb-4 flex items-center">
+                    <i data-lucide="credit-card" class="w-4 h-4 mr-2 text-primary"></i> Data Rekening & Pembayaran
+                </h4>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-1">Nama Bank / E-Wallet</label>
+                        <input type="text" id="profile-bank-name" placeholder="Misal: BCA / OVO" class="w-full px-4 py-2 bg-dark border border-borderMain text-textMain rounded-lg focus:ring-2 focus:ring-primary outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-1">Nomor Rekening / No HP</label>
+                        <input type="text" id="profile-bank-account" placeholder="Misal: 1234567890" class="w-full px-4 py-2 bg-dark border border-borderMain text-textMain rounded-lg focus:ring-2 focus:ring-primary outline-none">
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-medium text-gray-300 mb-1">Nama Pemilik Rekening</label>
+                        <input type="text" id="profile-bank-owner" placeholder="Misal: Budi Santoso" class="w-full px-4 py-2 bg-dark border border-borderMain text-textMain rounded-lg focus:ring-2 focus:ring-primary outline-none">
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-medium text-gray-300 mb-1">URL Gambar QRIS (Opsional)</label>
+                        <input type="url" id="profile-qris-url" placeholder="https://domain.com/qris.jpg" class="w-full px-4 py-2 bg-dark border border-borderMain text-textMain rounded-lg focus:ring-2 focus:ring-primary outline-none">
                     </div>
                 </div>
-
             </div>
-
+                                            
+            <hr class="border-borderMain">
+            <div>
+                <h4 class="text-sm font-bold text-gray-200 mb-4">Ubah Password</h4>
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-1">Password Saat Ini</label>
+                        <input type="password" id="profile-old-password" placeholder="Kosongkan jika tidak ingin mengubah" class="w-full px-4 py-2 bg-dark border border-borderMain text-textMain rounded-lg focus:ring-2 focus:ring-primary outline-none max-w-md">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-1">Password Baru</label>
+                        <input type="password" id="profile-new-password" class="w-full px-4 py-2 bg-dark border border-borderMain text-textMain rounded-lg focus:ring-2 focus:ring-primary outline-none max-w-md">
+                    </div>
+                </div>
+            </div>
+            <div class="pt-4 flex justify-end">
+                <button type="submit" id="btn-submit-profile" class="w-full sm:w-auto px-6 py-2 text-sm font-medium bg-primary hover:bg-primaryHover text-white rounded-lg shadow-lg shadow-primary/20">Simpan Perubahan</button>
+            </div>
+        </form>
+    </div>
+</div>
             <!-- NAVBAR BOTTOM MOBILE -->
             <nav class="lg:hidden fixed bottom-0 w-full bg-card border-t border-borderMain z-40 overflow-x-auto no-scrollbar shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.3)] h-[70px]">
                 <div id="mobile-nav-menu" class="flex items-center justify-center min-w-full h-full px-2">
